@@ -13,3 +13,14 @@ after_success:
   - docker build -t shaifal/multi-nginx ./nginx
   - docker build -t shaifal/multi-server ./server
   - docker build -t shaifal/multi-worker ./worker
+
+  # Login to Docker CLI
+  # Below command retrieves the docker login password from the environment variable DOCKER_PASSWORD saved in travis
+  # and pass it to the standard input of the next command that is the docker login command
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+  # Push all images built to dockerhub
+  - docker push shaifal/multi-client
+  - docker push shaifal/multi-nginx
+  - docker push shaifal/multi-server 
+  - docker push shaifal/multi-worker
